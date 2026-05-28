@@ -1,0 +1,126 @@
+# Ubuntu Configuration Makefile
+
+# Special targets
+.ONESHELL:
+.DELETE_ON_ERROR:
+.SHELLFLAGS := -eu -o pipefail -c
+
+# Silent by default — set DEBUG=true to echo each command before running it
+ifneq ($(DEBUG),true)
+.SILENT:
+endif
+
+# Declare phony targets
+.PHONY: help bootstrap apply link unlink status update lint fmt
+
+# Repository root resolved at parse time
+DOTFILES_ROOT := $(CURDIR)
+
+# Every category drops a script under scripts/install/. Sorted so the order is
+# stable across runs (filesystem ordering is not guaranteed).
+INSTALL_SCRIPTS := $(sort $(wildcard $(DOTFILES_ROOT)/scripts/install/*.sh))
+
+# Default shell
+SHELL := bash
+
+# Default target
+.DEFAULT_GOAL := help
+
+# Help command - shows all available targets
+help:
+	cat <<-EOF
+	Ubuntu Configuration
+
+	Setup:
+	  make bootstrap   - First-time interactive setup (runs setup.sh)
+	  make apply       - Run install + link for every category (non-interactive)
+
+	Linking (dotfiles):
+	  make link        - Link all configured dotfile categories into \$$HOME
+	  make unlink      - Remove our symlinks (originals stay in ~/.dotfiles-backup/)
+	  make status      - Show what is linked / foreign / missing
+
+	Packages:
+	  make update      - Refresh apt + snap + flatpak indices
+
+	Development:
+	  make lint        - shellcheck on every shell script
+	  make fmt         - shfmt -w on every shell script
+
+	Variables (export to override):
+	  DEBUG=true       - echo each shell command before running it
+
+	Repo: $(DOTFILES_ROOT)
+	EOF
+
+# First-time interactive setup
+bootstrap:
+	exec $(DOTFILES_ROOT)/setup.sh
+
+# Run every category's install + link step (non-interactive)
+apply:
+	if [[ -z "$(INSTALL_SCRIPTS)" ]]; then
+		echo "no dotfile categories wired up yet — drop scripts/install/<category>.sh"
+		exit 0
+	fi
+	for script in $(INSTALL_SCRIPTS); do
+		bash "$$script" install
+		bash "$$script" link
+	done
+
+# Link all configured dotfile categories into the user's HOME
+link:
+	if [[ -z "$(INSTALL_SCRIPTS)" ]]; then
+		echo "no dotfile categories wired up yet — drop scripts/install/<category>.sh"
+		exit 0
+	fi
+	for script in $(INSTALL_SCRIPTS); do
+		bash "$$script" link
+	done
+
+# Remove our symlinks (originals remain under ~/.dotfiles-backup/)
+unlink:
+	if [[ -z "$(INSTALL_SCRIPTS)" ]]; then
+		echo "no dotfile categories wired up yet"
+		exit 0
+	fi
+	for script in $(INSTALL_SCRIPTS); do
+		bash "$$script" unlink
+	done
+
+# Show what is linked / foreign / missing for each category
+status:
+	if [[ -z "$(INSTALL_SCRIPTS)" ]]; then
+		echo "no dotfile categories wired up yet"
+		exit 0
+	fi
+	for script in $(INSTALL_SCRIPTS); do
+		bash "$$script" status
+	done
+
+# Refresh package indices for every available source
+update:
+	echo "==> apt"
+	sudo apt-get update
+	if command -v snap >/dev/null 2>&1; then
+		echo "==> snap"
+		sudo snap refresh
+	fi
+	if command -v flatpak >/dev/null 2>&1; then
+		echo "==> flatpak"
+		flatpak update -y
+	fi
+
+# Lint every shell script in the repo
+lint:
+	find $(DOTFILES_ROOT) \
+		-type d \( -name .git -o -name .claude -o -name docs \) -prune -o \
+		-type f \( -name '*.sh' -o -name 'setup.sh' \) -print0 \
+		| xargs -0 --no-run-if-empty shellcheck --shell=bash --external-sources
+
+# Format every shell script in the repo (tabs, per code-style skill)
+fmt:
+	find $(DOTFILES_ROOT) \
+		-type d \( -name .git -o -name .claude -o -name docs \) -prune -o \
+		-type f \( -name '*.sh' -o -name 'setup.sh' \) -print0 \
+		| xargs -0 --no-run-if-empty shfmt -w -i 0 -ci -bn
