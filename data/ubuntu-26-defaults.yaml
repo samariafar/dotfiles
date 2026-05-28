@@ -1,0 +1,19 @@
+# Reference list of what Ubuntu 26 LTS ships out of the box. Single source of
+# truth for `presence: assume` entries elsewhere — install scripts cross-check
+# against this file to skip what's already on the system.
+#
+# Keep this list factual (what Ubuntu actually installs) — opinions about
+# whether to keep, replace, or hide a default live in the matching install
+# script or manifest entry, not here.
+
+apt:
+  # Default terminal emulator (replaces gnome-terminal).
+  - ptyxis
+
+gnome_extensions:
+  # Identified by UUID. These ship enabled by default on a standard Ubuntu
+  # 26 LTS install.
+  - ubuntu-dock@ubuntu.com
+  - ubuntu-appindicators@ubuntu.com
+  - ding@rastersoft.com
+  - tiling-assistant@ubuntu.com
