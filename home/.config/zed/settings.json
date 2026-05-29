@@ -1,0 +1,61 @@
+{
+  "autosave": "on_focus_change",
+
+  "tab_size": 2,
+  "soft_wrap": "editor_width",
+  "show_whitespaces": "boundary",
+  "show_indent_guides": true,
+  "ensure_final_newline_on_save": true,
+  "remove_trailing_whitespace_on_save": true,
+
+  "languages": {
+    "Markdown": {
+      "soft_wrap": "none"
+    }
+  },
+
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 14,
+  "buffer_font_family": "JetBrains Mono",
+  "buffer_font_fallbacks": ["Noto Color Emoji"],
+  "ui_font_fallbacks": ["Noto Color Emoji"],
+
+  "terminal": {
+    "font_family": "JetBrains Mono",
+    "font_fallbacks": ["Noto Color Emoji"],
+    "font_size": 14,
+    "line_height": "comfortable"
+  },
+
+  "vim_mode": false,
+  "cursor_blink": true,
+  "relative_line_numbers": false,
+  "show_inline_completions": true,
+
+  "git": {
+    "git_gutter": "tracked_files",
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+
+  "format_on_save": "on",
+
+  "auto_install_extensions": {
+    "dockerfile": true,
+    "html": true,
+    "json": true,
+    "toml": true,
+    "yaml": true
+  },
+
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  }
+}
