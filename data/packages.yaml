@@ -1,0 +1,253 @@
+# Package manifest. Lists are grouped by source. Each entry is either a bare
+# string (the package name with defaults) or a mapping with these fields:
+#
+#   name:       package identifier
+#               - apt:     debian package name
+#               - snap:    snap name
+#               - flatpak: application id (e.g. org.mozilla.firefox)
+#               - cargo:   crate name
+#               - npm:     package name (installed globally via volta)
+#   presence:   ensure (default) | assume | optional
+#               - ensure:   install if missing
+#               - assume:   ships with Ubuntu 26 LTS by default; never install,
+#                           configure only. Cross-reference ubuntu-26-defaults.yaml.
+#               - optional: tagged for opt-in; setup.sh prompts before installing
+#   flags:      extra args passed to the package manager (snap: --classic, etc.)
+#   note:       free-form rationale for the reader
+#
+# Anything that needs a third-party repository (Docker CE, Tailscale, Cloudflare
+# Warp, GitHub CLI upstream, …) does NOT live here — it gets its own install
+# script under scripts/install/<name>.sh which handles the GPG key, apt source,
+# and install in one step.
+
+# ------------------------------------------------------------------------------
+# apt
+# ------------------------------------------------------------------------------
+
+apt:
+  # Archive
+  - p7zip-full
+  - rar           # multiverse
+  - unrar         # multiverse
+  - unzip
+  - zip
+
+  # Benchmarking
+  - stress-ng
+  - sysbench
+
+  # Data processing — jq + yq are bootstrapped by setup.sh; listed here so
+  # `make apply` reinstalls them on a wiped system before the rest of the
+  # pipeline runs.
+  - jq
+
+  # Dev tooling
+  - build-essential
+  - expect
+  - make
+  - shellcheck
+  - shfmt
+
+  # Editors
+  - nano
+
+  # Files / search — also installed by the shell category; duplicated here
+  # because that category needs them before this manifest is even read.
+  - bat
+  - eza
+  - fd-find
+  - file
+  - ripgrep
+
+  # GNOME apps & tooling
+  - dconf-editor
+  - gnome-extension-manager
+  - gnome-tweaks
+  - gnome-weather
+  - { name: ptyxis, presence: assume, note: "default terminal on Ubuntu 26" }
+  - python3-nautilus
+
+  # GStreamer plugins for full media-format coverage in GNOME apps
+  - gstreamer1.0-libav
+  - gstreamer1.0-plugins-bad
+  - gstreamer1.0-plugins-base
+  - gstreamer1.0-plugins-good
+  - gstreamer1.0-plugins-ugly
+  - gstreamer1.0-vaapi
+
+  # Media — ffmpeg + image-format libs (HEIC, RAW)
+  - ffmpeg
+  - libheif-examples
+  - libraw-bin
+
+  # Mobile devices — Android (adb/fastboot) + iOS (libimobiledevice + ifuse)
+  - android-tools-adb
+  - android-tools-fastboot
+  - ifuse
+  - jmtpfs
+  - libimobiledevice-utils
+
+  # Network
+  - aria2
+  - bind9-dnsutils       # dig, nslookup
+  - gnome-network-displays
+  - magic-wormhole
+  - nmap
+  - speedtest-cli        # FOSS port of ookla speedtest; for the official binary use snap below
+  - tcpdump
+  - traceroute
+  - whois
+
+  # Printing — HP printers via USB and network
+  - hplip
+  - printer-driver-postscript-hp
+  - cups
+  - avahi-daemon         # mDNS for AirPrint discovery
+
+  # Process & system
+  - inxi
+  - iotop
+  - psmisc               # killall, fuser, pstree
+  - sysprof
+
+  # Security & encryption
+  - age
+  - clamav
+  - clamav-daemon
+  - fail2ban
+  - firejail
+  - git-crypt
+  - gnupg2               # also pulled in by the git category
+  - lynis
+  - libpam-google-authenticator
+  - opensnitch
+  - sops
+
+  # Shell / TUI utilities — most are wired in via scripts/install/shell.sh too
+  - bc
+  - btop
+  - duf
+  - fastfetch
+  - fzf
+  - glances
+  - htop
+  - ncdu
+  - tldr
+  - tmux
+  - wl-clipboard
+  - zoxide
+
+  # Tools / VCS
+  - gh                   # GitHub CLI (ubuntu repo; for upstream see scripts/install/gh.sh)
+  - myrepos              # `mr` — multi-repo manager (pulls in the wiki)
+
+  # Fonts
+  - font-manager
+
+  # Editors — apps that integrate with the GNOME desktop
+  - krita
+  - inkscape
+  - kicad
+  - vlc
+
+  # Virtualization
+  - docker.io            # for upstream docker-ce see scripts/install/docker.sh
+  - docker-compose-v2
+  - libvirt-daemon-system
+  - libvirt-clients
+  - virt-manager
+  - wireguard-tools
+
+# ------------------------------------------------------------------------------
+# snap
+# ------------------------------------------------------------------------------
+
+snap:
+  # Build / language toolchains kept globally during the transition away
+  # from per-project nix shells (mirrors nixcfg's "transitional" packages).
+  - { name: flutter, flags: [--classic] }
+  - { name: go, flags: [--classic] }
+
+  # Cross-platform tooling that's better via snap than apt (newer versions,
+  # auto-updates).
+  - { name: bruno }
+  - { name: chromium }
+  - { name: cryptomator }
+  - { name: gitkraken, flags: [--classic] }
+  - { name: obsidian, flags: [--classic] }
+  - { name: powershell, flags: [--classic] }
+  - { name: sourcegit }
+  - { name: speedtest, note: "official Ookla CLI; the apt 'speedtest-cli' is a separate FOSS port" }
+  - yq                   # already bootstrapped by setup.sh; listed for `make apply` re-runs
+
+  # JetBrains IDEs (all need --classic for full JVM/build-tool access)
+  - { name: android-studio, flags: [--classic] }
+  - { name: clion, flags: [--classic] }
+  - { name: goland, flags: [--classic] }
+  - { name: intellij-idea-ultimate, flags: [--classic] }
+  - { name: phpstorm, flags: [--classic] }
+  - { name: pycharm-professional, flags: [--classic] }
+  - { name: rider, flags: [--classic] }
+  - { name: rustrover, flags: [--classic] }
+  - { name: webstorm, flags: [--classic] }
+
+# ------------------------------------------------------------------------------
+# flatpak
+# ------------------------------------------------------------------------------
+#
+# Assumes the flathub remote has been added — handled by the flatpak install
+# script (TODO: scripts/install/flatpak.sh). Each entry is the full app id.
+
+flatpak:
+  # GNOME-ecosystem desktop apps not packaged in apt
+  - com.belmoussaoui.Decoder              # gnome-decoder
+  - com.belmoussaoui.Obfuscate            # gnome-obfuscate
+  - com.github.ADBeveridge.Raider         # secure file shredder
+  - com.github.finefindus.eyedropper
+  - com.github.huluti.Curtail             # image compressor
+  - com.github.liferooter.textpieces
+  - com.rafaelmardojai.Blanket
+  - com.vixalien.sticky                   # sticky notes
+  - fr.romainvigier.MetadataCleaner
+  - in.cinny.Cinny                        # matrix client
+  - io.github.alainm23.planify
+  - io.github.linx_systems.ClamUI
+  - io.github.tdamerow.Gradia
+  - io.gitlab.news_flash.NewsFlash
+  - net.nokyan.Resources                  # system monitor
+  - net.werwolv.ImHex
+  - org.gnome.World.PikaBackup
+  - org.gnome.gitlab.YaLTeR.VideoTrimmer
+  - org.nickvision.money                  # Denaro replacement
+  - tech.digiroad.Convertidor             # unit converter
+  - app.tintero.Tintero                   # writing studio
+
+  # FOSS heavyweights
+  - org.freecadweb.FreeCAD                # if apt FreeCAD ever lags
+  - org.libreoffice.LibreOffice
+  - com.obsproject.Studio
+  - org.remmina.Remmina
+
+# ------------------------------------------------------------------------------
+# cargo
+# ------------------------------------------------------------------------------
+#
+# Crates we install globally. Assumes rustup is available — TODO:
+# scripts/install/rustup.sh runs the official `https://sh.rustup.rs` installer.
+
+cargo:
+  - bore-cli                              # reverse port forwarder
+
+# ------------------------------------------------------------------------------
+# npm (via Volta)
+# ------------------------------------------------------------------------------
+#
+# Installed via `volta install <name>`. Assumes Volta is available — TODO:
+# scripts/install/volta.sh runs the official `get.volta.sh` installer.
+
+npm:
+  - "@anthropic-ai/claude-code"
+  - "@openai/codex"
+  - "@google/gemini-cli"
+  - npm-check-updates
+  - opencode-ai
