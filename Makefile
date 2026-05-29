@@ -11,7 +11,7 @@ ifneq ($(DEBUG),true)
 endif
 
 # Declare phony targets
-.PHONY: help bootstrap apply link unlink status update lint fmt
+.PHONY: help bootstrap secrets apply link unlink status update lint fmt
 
 # Repository root resolved at parse time
 DOTFILES_ROOT := $(CURDIR)
@@ -33,6 +33,7 @@ help:
 
 	Setup:
 	  make bootstrap   - First-time interactive setup (runs setup.sh)
+	  make secrets     - Decrypt secrets.yaml and render private config files
 	  make apply       - Run install + link for every category (non-interactive)
 
 	Linking (dotfiles):
@@ -57,8 +58,16 @@ help:
 bootstrap:
 	exec $(DOTFILES_ROOT)/setup.sh
 
-# Run every category's install + link step (non-interactive)
-apply:
+# Decrypt secrets.yaml and render any private config files referenced by the
+# install categories. Idempotent — re-renders on each run. Skips cleanly when
+# sops / age / the user's age key isn't available.
+secrets:
+	bash $(DOTFILES_ROOT)/scripts/setup/secrets.sh install
+
+# Run every category's install + link step (non-interactive). Secret rendering
+# runs first so anything referencing private config (e.g. ~/.config/git/config
+# includeIf -> ~/.config/git/config-artifex) finds it in place.
+apply: secrets
 	if [[ -z "$(INSTALL_SCRIPTS)" ]]; then
 		echo "no dotfile categories wired up yet — drop scripts/install/<category>.sh"
 		exit 0

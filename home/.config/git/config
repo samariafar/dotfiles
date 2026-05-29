@@ -1,0 +1,63 @@
+[user]
+	name = Sam Ariafar
+	email = me@samariafar.com
+	signingkey = 43980348B058F190C95BD47F8412223052412037
+
+[core]
+	autocrlf = false
+	editor = nano
+	filemode = false
+	ignorecase = false
+	pager = delta
+	sshCommand = ssh -i ~/Vault/Keys/Sam/ssh-private.key
+	symlinks = false
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = false
+
+[commit]
+	gpgsign = true
+
+[gpg]
+	program = gpg2
+
+[tag]
+	forceSignAnnotated = true
+	gpgsign = true
+
+[rerere]
+	enabled = true
+
+[push]
+	autoSetupRemote = true
+	followTags = true
+
+[diff]
+	colorMoved = default
+
+[merge]
+	conflictstyle = diff3
+
+[rebase]
+	autoStash = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	features = side-by-side line-numbers decorations
+	syntax-theme = Dracula
+	navigate = true
+	light = false
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
+[url "git@gitlab.com:"]
+	insteadOf = https://gitlab.com/
+
+[includeIf "gitdir:~/Projects/Public/"]
+	path = ~/.config/git/config-artifex

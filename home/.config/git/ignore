@@ -1,0 +1,10 @@
+.claude/
+.direnv/
+.DS_Store
+.idea/
+.vscode/
+*.sw?
+*~
+desktop.ini
+node_modules/
+Thumbs.db

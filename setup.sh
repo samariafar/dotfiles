@@ -55,11 +55,13 @@ install_bootstrap_deps() {
 	# here because the shell-side overrides (e.g. `git profile`) depend on it.
 	pkg_apt_update
 	pkg_apt_install \
+		age \
 		ca-certificates \
 		curl \
 		git \
 		gum \
 		jq \
+		sops \
 		wget
 
 	# yq-go ships as a snap on Ubuntu. The apt 'yq' package is the unrelated
