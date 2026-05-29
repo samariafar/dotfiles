@@ -6,6 +6,9 @@
 # Sub-repositories
 /docs/wiki/
 
+# Captured live-system snapshots (output of `make capture`)
+/var/
+
 # Misc.
 .DS_Store
 Thumbs.db

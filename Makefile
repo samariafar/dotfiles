@@ -11,7 +11,7 @@ ifneq ($(DEBUG),true)
 endif
 
 # Declare phony targets
-.PHONY: help bootstrap secrets apply link unlink status update lint fmt
+.PHONY: help bootstrap secrets apply link unlink status update capture diff lint fmt
 
 # Repository root resolved at parse time
 DOTFILES_ROOT := $(CURDIR)
@@ -19,6 +19,10 @@ DOTFILES_ROOT := $(CURDIR)
 # Every category drops a script under scripts/install/. Sorted so the order is
 # stable across runs (filesystem ordering is not guaranteed).
 INSTALL_SCRIPTS := $(sort $(wildcard $(DOTFILES_ROOT)/scripts/install/*.sh))
+
+# Reverse-direction tooling — capture the live system state and diff against
+# what the repo declares.
+CAPTURE_SCRIPTS := $(sort $(wildcard $(DOTFILES_ROOT)/scripts/capture/*.sh))
 
 # Default shell
 SHELL := bash
@@ -43,6 +47,10 @@ help:
 
 	Packages:
 	  make update      - Refresh apt + snap + flatpak indices
+
+	Drift detection:
+	  make capture     - Snapshot live system state into var/captured/
+	  make diff        - Show what differs between system and repo
 
 	Development:
 	  make lint        - shellcheck on every shell script
@@ -105,6 +113,30 @@ status:
 	fi
 	for script in $(INSTALL_SCRIPTS); do
 		bash "$$script" status
+	done
+
+# Snapshot the current state of the live system (installed packages, enabled
+# GNOME extensions, dconf settings, Firefox extensions). Output lands under
+# var/captured/ (gitignored). Use `make diff` to compare against the repo's
+# declarations.
+capture:
+	if [[ -z "$(CAPTURE_SCRIPTS)" ]]; then
+		echo "no capture scripts wired up yet"
+		exit 0
+	fi
+	for script in $(CAPTURE_SCRIPTS); do
+		bash "$$script" capture
+	done
+
+# Per-category diff between the live system (last captured) and the repo
+# declarations. Read-only — surfaces drift, never auto-applies it.
+diff:
+	if [[ -z "$(CAPTURE_SCRIPTS)" ]]; then
+		echo "no capture scripts wired up yet"
+		exit 0
+	fi
+	for script in $(CAPTURE_SCRIPTS); do
+		bash "$$script" diff
 	done
 
 # Refresh package indices for every available source
