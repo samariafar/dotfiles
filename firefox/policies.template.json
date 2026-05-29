@@ -1,0 +1,215 @@
+{
+  "policies": {
+    "AutofillAddressEnabled": false,
+    "AutofillCreditCardEnabled": false,
+    "DisableFirefoxAccounts": true,
+    "DisableFirefoxStudies": true,
+    "DisableFormHistory": true,
+    "DisablePocket": true,
+    "DisableProfileImport": true,
+    "DisableSetDesktopBackground": true,
+    "DisableTelemetry": true,
+    "DisplayBookmarksToolbar": "never",
+    "DisplayMenuBar": "never",
+    "NoDefaultBookmarks": true,
+    "OfferToSaveLogins": false,
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "PasswordManagerEnabled": false,
+    "PostQuantumKeyAgreementEnabled": true,
+
+    "Cookies": {
+      "Behavior": "reject-tracker-and-partition-foreign"
+    },
+
+    "DisableSecurityBypass": {
+      "InvalidCertificate": false,
+      "SafeBrowsing": true
+    },
+
+    "DNSOverHTTPS": {
+      "Enabled": true,
+      "ProviderURL": "https://dns.quad9.net/dns-query",
+      "Locked": true,
+      "ExcludedDomains": [],
+      "Fallback": true
+    },
+
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Locked": true,
+      "Cryptomining": true,
+      "Fingerprinting": true
+    },
+
+    "EncryptedMediaExtensions": {
+      "Enabled": true,
+      "Locked": true
+    },
+
+    "InstallAddonsPermission": {
+      "Allow": ["https://addons.mozilla.org"],
+      "Default": false
+    },
+
+    "Bookmarks": [
+      {
+        "Title": "Language Translator",
+        "URL": "https://translate.google.com",
+        "Favicon": "https://www.gstatic.com/translate/favicon.ico",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Algebra Calculator",
+        "URL": "https://www.mathway.com",
+        "Favicon": "https://www.mathway.com/favicon.ico",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Currency Rates",
+        "URL": "https://www.tgju.org/currency",
+        "Favicon": "https://static.tgju.org/views/default/images/favicon.ico",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Image Watermark Remover",
+        "URL": "https://www.watermarkremover.io",
+        "Favicon": "https://cdn.pixelbin.io/v2/dummy-cloudname/original/watermarkremover_asset/logo/favicon.ico",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Image Background Remover",
+        "URL": "https://www.remove.bg",
+        "Favicon": "https://www.remove.bg/favicon.ico",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Zoomit",
+        "URL": "https://www.zoomit.ir",
+        "Favicon": "https://www.zoomit.ir/favicon.ico",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "BBC - Persian",
+        "URL": "https://www.bbc.com/persian",
+        "Favicon": "https://www.bbc.com/favicon.ico",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "eBooks Subscription",
+        "URL": "https://www.scribd.com",
+        "Favicon": "https://s-f.scribdassets.com/scribd_rebrand.ico",
+        "Placement": "toolbar"
+      }
+    ],
+
+    "Containers": {
+      "Default": [
+        { "name": "Anonymous", "icon": "chill", "color": "purple" },
+        { "name": "中文", "icon": "circle", "color": "red" },
+        { "name": "فارسی", "icon": "circle", "color": "turquoise" }
+      ]
+    },
+
+    "Handlers": {
+      "schemes": {
+        "mailto": {
+          "action": "useHelperApp",
+          "ask": true,
+          "handlers": [
+            {
+              "name": "Gmail - Personal",
+              "uriTemplate": "https://mail.google.com/mail/u/0/?extsrc=mailto&url=%s"
+            },
+            {
+              "name": "Gmail - Business",
+              "uriTemplate": "https://mail.google.com/mail/u/1/?extsrc=mailto&url=%s"
+            }
+          ]
+        }
+      }
+    },
+
+    "FirefoxHome": {
+      "TopSites": false,
+      "Locked": true
+    },
+
+    "FirefoxSuggest": {
+      "SponsoredSuggestions": false,
+      "ImproveSuggest": false,
+      "Locked": true
+    },
+
+    "HttpAllowlist": [
+      "http://localhost",
+      "http://localhost:3000",
+      "http://localhost:8000",
+      "http://localhost:8080",
+      "http://localhost:9001"
+    ],
+
+    "Homepage": {
+      "Locked": true,
+      "StartPage": "previous-session"
+    },
+
+    "Preferences": {
+      "findbar.highlightAll": { "Value": true, "Status": "user" },
+      "media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled": { "Value": false, "Status": "user" },
+      "security.ssl.require_safe_negotiation": { "Value": true, "Status": "locked" },
+      "security.tls.version.enable-deprecated": { "Value": false, "Status": "locked" },
+      "toolkit.legacyUserProfileCustomizations.stylesheets": { "Value": true, "Status": "locked" },
+      "privacy.globalprivacycontrol.enabled": { "Value": true, "Status": "locked" },
+      "privacy.donottrackheader.enabled": { "Value": true, "Status": "locked" },
+      "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons": { "Value": false, "Status": "locked" },
+      "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features": { "Value": false, "Status": "locked" },
+      "browser.eme.ui.firstContentShown": { "Value": true, "Status": "locked" },
+      "browser.aboutwelcome.didSeeFinalScreen": { "Value": true, "Status": "user" },
+      "browser.tabs.warnOnClose": { "Value": true, "Status": "user" }
+    },
+
+    "WebsiteFilter": {
+      "Block": []
+    },
+
+    "SearchEngines": {
+      "Add": [
+        {
+          "Name": "Nix Packages",
+          "URLTemplate": "https://search.nixos.org/packages?type=packages&channel=unstable&query={searchTerms}",
+          "Alias": "@np",
+          "IconURL": "https://nixos.org/favicon.ico"
+        },
+        {
+          "Name": "Docker Hub",
+          "URLTemplate": "https://hub.docker.com/search?q={searchTerms}",
+          "Alias": "@dh",
+          "IconURL": "https://www.docker.com/wp-content/uploads/2024/02/cropped-docker-logo-favicon-32x32.png"
+        },
+        {
+          "Name": "Etherscan",
+          "URLTemplate": "https://etherscan.io/address/{searchTerms}",
+          "Alias": "@es",
+          "IconURL": "https://etherscan.io/images/favicon3.ico"
+        },
+        {
+          "Name": "WHOIS",
+          "URLTemplate": "https://client.rdap.org?type=domain&object={searchTerms}",
+          "Alias": "@whois",
+          "IconURL": "https://about.rdap.org/assets/icon.png"
+        },
+        {
+          "Name": "Open Source Alternatives",
+          "URLTemplate": "https://www.opensourcealternative.to?searchTerm={searchTerms}",
+          "Alias": "@at",
+          "IconURL": "https://www.opensourcealternative.to/favicon.ico"
+        }
+      ]
+    },
+
+    "ExtensionSettings": {
+      "3rdparty": {}
+    }
+  }
+}

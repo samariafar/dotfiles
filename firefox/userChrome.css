@@ -1,0 +1,74 @@
+/*** Hide bookmark star in the URL bar ***/
+#star-button-box {
+  display: none !important;
+}
+
+
+/*** Hide Firefox's native vertical-tabs sidebar (Sidebery handles tabs) ***/
+
+@media -moz-pref("sidebar.verticalTabs") {
+  #sidebar-launcher-splitter,
+  #sidebar-main {
+    visibility: collapse;
+  }
+}
+
+
+/*** Optional: place window controls on the left ***/
+
+@media -moz-pref("userchrome.force-window-controls-on-left.enabled") {
+  #nav-bar > .titlebar-buttonbox-container {
+    order: -1 !important;
+    > .titlebar-buttonbox {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+
+/*** Hide the classic horizontal tabs strip while keeping window controls usable ***/
+
+@media not -moz-pref("sidebar.verticalTabs") {
+  #TabsToolbar:not([customizing]) {
+    visibility: collapse;
+  }
+
+  :root[sizemode="fullscreen"] #nav-bar > .titlebar-buttonbox-container {
+    display: flex !important;
+  }
+
+  :root[customtitlebar] #toolbar-menubar:is([autohide=""],[autohide="true"]) ~ #nav-bar {
+    > .titlebar-buttonbox-container {
+      display: flex !important;
+    }
+    :root[sizemode="normal"] & {
+      > .titlebar-spacer {
+        display: flex !important;
+      }
+    }
+    :root[sizemode="maximized"] & {
+      > .titlebar-spacer[type="post-tabs"] {
+        display: flex !important;
+      }
+      @media -moz-pref("userchrome.force-window-controls-on-left.enabled"),
+        (-moz-gtk-csd-reversed-placement),
+        (-moz-platform: macos) {
+        > .titlebar-spacer[type="post-tabs"] {
+          display: none !important;
+        }
+        > .titlebar-spacer[type="pre-tabs"] {
+          display: flex !important;
+        }
+      }
+    }
+  }
+}
+
+
+/*** Hide sidebar header / panel header ***/
+
+#sidebar-header,
+#sidebar-panel-header,
+#sidebar-main {
+  display: none !important;
+}

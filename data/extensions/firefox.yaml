@@ -1,0 +1,115 @@
+# Firefox extension manifest. Installed via the `ExtensionSettings` policy
+# (Firefox's enterprise-policy mechanism), which works against snap-confined
+# Firefox and survives profile resets.
+#
+# Each entry:
+#   id:        extension id — email-shaped (`name@domain`) or UUID-in-braces
+#   url:       install_url (typically https://addons.mozilla.org/...)
+#   options:   optional map merged into the per-extension policy entry; use to
+#              override `installation_mode`, `default_area`, `private_browsing`
+#   note:      free-form rationale
+
+extensions:
+  # --- core privacy / containers / tab management -----------------------------
+
+  - id: uBlock0@raymondhill.net
+    url: https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi
+    options: { default_area: navbar, private_browsing: true }
+
+  - id: "{446900e4-71c2-419f-a6a7-df9c091e268b}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi
+    options: { default_area: navbar }
+    note: Bitwarden
+
+  - id: "@testpilot-containers"
+    url: https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi
+    note: Multi-Account Containers
+
+  - id: "{c607c8df-14a7-4f28-894f-29e8722976af}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/temporary-containers/latest.xpi
+    note: Temporary Containers
+
+  - id: "{3c078156-979c-498b-8990-85f7987dd929}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/sidebery/latest.xpi
+    options: { private_browsing: true }
+    note: Sidebery — vertical tab tree
+
+  # --- translation / linguistics ----------------------------------------------
+
+  - id: "{036a55b4-5e72-4d05-a06c-cba2dfcc134a}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/traduzir-paginas-web/latest.xpi
+    options: { private_browsing: true }
+    note: Translate Web Pages
+
+  - id: simple-translate@sienori
+    url: https://addons.mozilla.org/firefox/downloads/latest/simple-translate/latest.xpi
+    options: { private_browsing: true }
+
+  - id: languagetool-webextension@languagetool.org
+    url: https://addons.mozilla.org/firefox/downloads/latest/languagetool/latest.xpi
+
+  # --- bookmarks / clipping ---------------------------------------------------
+
+  - id: "{b6e1edcb-2bbd-4d50-9f25-5dde9d2dc6a3}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/raindropio/latest.xpi
+    note: Raindrop.io
+
+  # --- regional / locale ------------------------------------------------------
+
+  - id: "{1018e4d6-728f-4b20-ad56-37578a4de76b}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/flagfox/latest.xpi
+    options: { private_browsing: true }
+
+  # --- wallets / crypto -------------------------------------------------------
+
+  - id: webextension@metamask.io
+    url: https://addons.mozilla.org/firefox/downloads/latest/ether-metamask/latest.xpi
+    options: { default_area: navbar }
+
+  # --- media / reading --------------------------------------------------------
+
+  - id: sponsorBlocker@ajay.app
+    url: https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi
+
+  - id: "{762f9885-5a13-4abd-9c77-433dcd38b8fd}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/return-youtube-dislikes/latest.xpi
+
+  - id: netfix-pip@firefox
+    url: https://addons.mozilla.org/firefox/downloads/latest/netfix/latest.xpi
+    note: NetFix — Netflix PiP
+
+  # --- appearance / utilities -------------------------------------------------
+
+  - id: addon@darkreader.org
+    url: https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi
+
+  - id: emoji@saveriomorelli.com
+    url: https://addons.mozilla.org/firefox/downloads/latest/emoji-sav/latest.xpi
+
+  - id: gt@giphy.com
+    url: https://addons.mozilla.org/firefox/downloads/latest/giphy-for-firefox/latest.xpi
+
+  # --- developer / format viewers --------------------------------------------
+
+  - id: jaswantk9177@gmail.com
+    url: https://addons.mozilla.org/firefox/downloads/latest/json-viewer-pro/latest.xpi
+    note: JSON Viewer Pro
+
+  - id: "{f3ee08f8-d4d8-4095-8096-4bb784d082f9}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/markdown-reader-ext/latest.xpi
+    note: Markdown Reader
+
+  - id: "@xmlformatter"
+    url: https://addons.mozilla.org/firefox/downloads/latest/xml-viewer/latest.xpi
+    note: XML Viewer
+
+  # --- history / tab tools ---------------------------------------------------
+
+  - id: "{4853d046-c5a3-436b-bc36-220fd935ee1d}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/undoclosetabbutton/latest.xpi
+    options: { default_area: navbar, private_browsing: true }
+    note: Undo Close Tab Button
+
+  - id: "{a9c0e3d2-7b81-4f3e-9c2d-5f6e8a1b4c3d}"
+    url: https://addons.mozilla.org/firefox/downloads/latest/history-clean-and-control/latest.xpi
+    note: History Clean and Control — per-site history wipe
