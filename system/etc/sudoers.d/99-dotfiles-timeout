@@ -1,0 +1,9 @@
+# Sudo timeout hardening — ports nixcfg modules/nixos/security.nix sudo
+# extraConfig. Lecture-once on first use; auth credential cached 5 minutes.
+#
+# IMPORTANT: deployed via `visudo -c -f` validation in
+# scripts/install/sudo.sh; invalid sudoers files brick the host's sudo until
+# fixed via root or single-user mode. Don't hand-edit on the deployed host.
+
+Defaults timestamp_timeout=5
+Defaults lecture=once

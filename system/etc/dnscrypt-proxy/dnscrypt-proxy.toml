@@ -1,0 +1,39 @@
+# Encrypted DNS via dnscrypt-proxy. Ports nixcfg's
+# modules/nixos/networking.nix `services.dnscrypt-proxy` settings: Quad9
+# (filtered, primary) → Cloudflare (fallback). Both DNSCrypt and DoH allowed.
+#
+# Configured to listen on the loopback so /etc/resolv.conf points at
+# 127.0.0.1; ensure NetworkManager.dns = none in NetworkManager.conf and
+# systemd-resolved is disabled so this is the authoritative resolver.
+
+listen_addresses = ['127.0.0.1:53', '[::1]:53']
+
+ipv4_servers = true
+ipv6_servers = true
+dnscrypt_servers = true
+doh_servers = true
+require_dnssec = true
+require_nolog = true
+# Quad9's filtered tier blocks known-malicious domains; flip this if you'd
+# rather not filter and just want privacy.
+require_nofilter = false
+
+# Server priority order — use in declared order, not random.
+lb_strategy = 'first'
+server_names = [
+	'quad9-dnscrypt-ip4-filter-pri',
+	'quad9-doh-ip4-port443-filter-pri',
+	'cloudflare',
+	'cloudflare-ipv6',
+]
+
+[sources]
+  [sources.public-resolvers]
+  urls = [
+	'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md',
+	'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md',
+  ]
+  cache_file = '/var/cache/dnscrypt-proxy/public-resolvers.md'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 72
+  prefix = ''
