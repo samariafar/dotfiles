@@ -1,0 +1,55 @@
+# GNOME Shell extension manifest. Entries installed via `gext` (Python tool
+# `gnome-extensions-cli`, installed by scripts/install/gnome.sh into a pipx
+# venv) and enabled via `gnome-extensions enable <uuid>`.
+#
+# Each entry:
+#   uuid:   the extension UUID (visible at extensions.gnome.org under
+#           "Get the shell extension" → the part after `uuid=`)
+#   note:   free-form rationale or installation gotcha
+
+extensions:
+  # Tray-icon support (KStatusNotifierItem). Upstream — NOT ubuntu-appindicators.
+  # Ubuntu's fork is force-disabled in 02-shell.ini's disabled-extensions list.
+  - uuid: appindicatorsupport@rgcjonas.gmail.com
+    note: upstream — Ubuntu's `ubuntu-appindicators@ubuntu.com` fork is disabled
+
+  # In-shell Claude Code status. Installed via overlays/claudebar in nixcfg —
+  # here pulled from the upstream release at github.com/bilbilak/claudebar.
+  - uuid: claudebar@bilbilak.org
+    note: TODO scripts/install/claudebar.sh — install from github releases
+
+  # Clipboard manager (history, paste menu).
+  - uuid: clipboard-indicator@tudmotu.com
+
+  # Upstream dash-to-dock. Ubuntu ships its own `ubuntu-dock@ubuntu.com` fork —
+  # disabled in 02-shell.ini so the upstream settings (03-extension-settings.ini)
+  # take effect.
+  - uuid: dash-to-dock@micxgx.gmail.com
+    note: upstream — Ubuntu's `ubuntu-dock@ubuntu.com` fork is disabled
+
+  # Desktop icons (rastersoft fork; the smedius GTK4 fork doesn't work).
+  # Ubuntu 26 ships this same extension by default — `gext` will see it as
+  # already installed and skip.
+  - uuid: ding@rastersoft.com
+    note: ships with Ubuntu 26; gext detects + skips install
+
+  # Hide the "Activities" hotword from the top-bar.
+  - uuid: Hide_Activities@shay.shayel.org
+
+  # Auto-switch GTK theme on sunrise/sunset.
+  - uuid: nightthemeswitcher@romainvigier.fr
+
+  # Always-on-top Picture-in-Picture windows.
+  - uuid: pip-on-top@rafostar.github.com
+
+  # Customize order of top-panel widgets.
+  - uuid: top-bar-organizer@julian.gse.jsts.xyz
+
+  # CPU/mem/disk/net usage in the top panel.
+  - uuid: tophat@fflewddur.github.io
+
+  # Weather emoji + temperature next to the clock.
+  - uuid: weatheroclock@CleoMenezesJr.github.io
+
+  # Workspace indicator (number + dot) in the top panel.
+  - uuid: workspace-indicator@gnome-shell-extensions.gcampax.github.com
